@@ -180,7 +180,20 @@ export default function StaffManagement() {
   const createStaffMutation = useMutation({
     mutationFn: async (newStaff: StaffFormValues) => {
       console.log("Enviando datos:", newStaff); // Para depuración
+      
+      // Asegurar que roleLabel está presente
+      const staffData = {
+        ...newStaff,
+        // También incluimos role_label para compatibilidad con el backend
+        role_label: newStaff.roleLabel
+      };
+      
+      console.log("Datos preparados:", staffData);
+      
       return await apiRequest("/api/staff", {
+        method: "POST",
+        data: staffData,
+      });
         method: "POST",
         data: newStaff,
       });
@@ -214,7 +227,20 @@ export default function StaffManagement() {
       data: StaffFormValues;
     }) => {
       console.log("Actualizando datos:", data); // Para depuración
+      
+      // Asegurar que roleLabel está presente
+      const staffData = {
+        ...data,
+        // También incluimos role_label para compatibilidad con el backend
+        role_label: data.roleLabel
+      };
+      
+      console.log("Datos preparados para actualización:", staffData);
+      
       return await apiRequest(`/api/staff/${id}`, {
+        method: "PUT",
+        data: staffData,
+      });
         method: "PUT",
         data,
       });
