@@ -1,0 +1,535 @@
+import type { Express, Request, Response } from "express";
+import { createServer, type Server } from "http";
+import { storage } from "./storage";
+import { setupAuth, isAuthenticated } from "./auth";
+import { 
+  insertStaffMemberSchema, 
+  insertRuleCategorySchema, 
+  insertRuleSchema, 
+  insertAnnouncementSchema,
+  insertBugReportSchema,
+  BugStatus
+} from "@shared/schema";
+import { z } from "zod";
+
+// Esquema para validar el ID
+const idParamSchema = z.object({
+  id: z.string().transform((val) => parseInt(val, 10)),
+});
+
+// Esquema para validar el ID de la categoría
+const categoryIdParamSchema = z.object({
+  categoryId: z.string().transform((val) => parseInt(val, 10)),
+});
+
+export async function registerRoutes(app: Express): Promise<Server> {
+  // Configurar autenticación
+  setupAuth(app);
+  // Endpoint to get server status
+  app.get("/api/server-status", (_req, res) => {
+    // In a production environment, you would fetch the actual status from 
+    // a Minecraft server status API (using libraries like minecraft-server-util)
+    // Here we're using static data for demonstration
+    res.json({
+      online: true,
+      players: { online: 127, max: 500 },
+      version: "1.19.2"
+    });
+  });
+
+  
+  // GET: Obtener todos los anuncios
+  app.get("/api/announcements", async (_req, res) => {
+    try {
+      const announcements = await storage.getAllAnnouncements();
+      res.json(announcements);
+    } catch (error) {
+      console.error('Error fetching announcements:', error);
+      res.status(500).json({ error: 'Error al obtener los anuncios' });
+    }
+  });
+
+  // GET: Obtener un anuncio por ID
+  app.get("/api/announcements/:id", async (req, res) => {
+    try {
+      const { id } = idParamSchema.parse({ id: req.params.id });
+      const announcement = await storage.getAnnouncementById(id);
+      
+      if (!announcement) {
+        return res.status(404).json({ error: 'Anuncio no encontrado' });
+      }
+      
+      res.json(announcement);
+    } catch (error) {
+      console.error('Error fetching announcement:', error);
+      res.status(error instanceof z.ZodError ? 400 : 500)
+        .json({ error: 'Error al obtener el anuncio' });
+    }
+  });
+
+  // POST: Crear un nuevo anuncio - PROTEGIDO
+  app.post("/api/announcements", isAuthenticated, async (req, res) => {
+    try {
+      const newAnnouncement = insertAnnouncementSchema.parse(req.body);
+      const createdAnnouncement = await storage.createAnnouncement(newAnnouncement);
+      res.status(201).json(createdAnnouncement);
+    } catch (error) {
+      console.error('Error creating announcement:', error);
+      res.status(error instanceof z.ZodError ? 400 : 500)
+        .json({
+          error: 'Error al crear el anuncio',
+          details: error instanceof z.ZodError ? error.errors : undefined
+        });
+    }
+  });
+
+  // PUT: Actualizar un anuncio - PROTEGIDO
+  app.put("/api/announcements/:id", isAuthenticated, async (req, res) => {
+    try {
+      const { id } = idParamSchema.parse({ id: req.params.id });
+      const announcementUpdate = insertAnnouncementSchema.partial().parse(req.body);
+      
+      const updatedAnnouncement = await storage.updateAnnouncement(id, announcementUpdate);
+      
+      if (!updatedAnnouncement) {
+        return res.status(404).json({ error: 'Anuncio no encontrado' });
+      }
+      
+      res.json(updatedAnnouncement);
+    } catch (error) {
+      console.error('Error updating announcement:', error);
+      res.status(error instanceof z.ZodError ? 400 : 500)
+        .json({
+          error: 'Error al actualizar el anuncio',
+          details: error instanceof z.ZodError ? error.errors : undefined
+        });
+    }
+  });
+
+  // DELETE: Eliminar un anuncio - PROTEGIDO
+  app.delete("/api/announcements/:id", isAuthenticated, async (req, res) => {
+    try {
+      const { id } = idParamSchema.parse({ id: req.params.id });
+      const success = await storage.deleteAnnouncement(id);
+      
+      if (!success) {
+        return res.status(404).json({ error: 'Anuncio no encontrado' });
+      }
+      
+      res.status(204).end();
+    } catch (error) {
+      console.error('Error deleting announcement:', error);
+      res.status(error instanceof z.ZodError ? 400 : 500)
+        .json({ error: 'Error al eliminar el anuncio' });
+    }
+  });
+
+
+  // GET: Obtener todos los miembros del staff
+  app.get("/api/staff", async (_req, res) => {
+    try {
+      const staffMembers = await storage.getAllStaffMembers();
+      res.json(staffMembers);
+    } catch (error) {
+      console.error('Error fetching staff members:', error);
+      res.status(500).json({ error: 'Error al obtener los miembros del staff' });
+    }
+  });
+
+  // GET: Obtener un miembro del staff por ID
+  app.get("/api/staff/:id", async (req, res) => {
+    try {
+      const { id } = idParamSchema.parse({ id: req.params.id });
+      const staffMember = await storage.getStaffMemberById(id);
+      
+      if (!staffMember) {
+        return res.status(404).json({ error: 'Miembro del staff no encontrado' });
+      }
+      
+      res.json(staffMember);
+    } catch (error) {
+      console.error('Error fetching staff member:', error);
+      res.status(error instanceof z.ZodError ? 400 : 500)
+        .json({ error: 'Error al obtener el miembro del staff' });
+    }
+  });
+
+  // POST: Crear un nuevo miembro del staff - PROTEGIDO
+      console.error('Error creating staff member:', error);
+      
+      if (error instanceof z.ZodError) {
+        console.error('Validation errors:', error.errors);
+      }
+      
+      res.status(error instanceof z.ZodError ? 400 : 500)
+        .json({
+          error: 'Error al crear el miembro del staff',
+          details: error instanceof z.ZodError ? error.errors : (error.message || 'Unknown error')
+        });
+    }
+  });
+  app.put("/api/staff/:id", async (req, res) => {
+    try {
+      const { id } = idParamSchema.parse({ id: req.params.id });
+      // Aquí solo validamos los campos que estén presentes
+      const staffMemberUpdate = insertStaffMemberSchema.partial().parse(req.body);
+      
+      const updatedStaffMember = await storage.updateStaffMember(id, staffMemberUpdate);
+      
+      if (!updatedStaffMember) {
+        return res.status(404).json({ error: 'Miembro del staff no encontrado' });
+      }
+      
+      res.json(updatedStaffMember);
+    } catch (error) {
+      console.error('Error updating staff member:', error);
+      res.status(error instanceof z.ZodError ? 400 : 500)
+        .json({ 
+          error: 'Error al actualizar el miembro del staff',
+          details: error instanceof z.ZodError ? error.errors : undefined
+        });
+    }
+  });
+
+  // DELETE: Eliminar un miembro del staff - PROTEGIDO
+  app.delete("/api/staff/:id", async (req, res) => {
+    try {
+      const { id } = idParamSchema.parse({ id: req.params.id });
+      const success = await storage.deleteStaffMember(id);
+      
+      if (!success) {
+        return res.status(404).json({ error: 'Miembro del staff no encontrado' });
+      }
+      
+      res.status(204).end();
+    } catch (error) {
+      console.error('Error deleting staff member:', error);
+      res.status(error instanceof z.ZodError ? 400 : 500)
+        .json({ error: 'Error al eliminar el miembro del staff' });
+    }
+  });
+
+  
+  // GET: Obtener todas las categorías de reglas
+  app.get("/api/rule-categories", async (_req, res) => {
+    try {
+      const categories = await storage.getAllRuleCategories();
+      res.json(categories);
+    } catch (error) {
+      console.error('Error fetching rule categories:', error);
+      res.status(500).json({ error: 'Error al obtener las categorías de reglas' });
+    }
+  });
+
+  // GET: Obtener una categoría por ID
+  app.get("/api/rule-categories/:id", async (req, res) => {
+    try {
+      const { id } = idParamSchema.parse({ id: req.params.id });
+      const category = await storage.getRuleCategoryById(id);
+      
+      if (!category) {
+        return res.status(404).json({ error: 'Categoría no encontrada' });
+      }
+      
+      res.json(category);
+    } catch (error) {
+      console.error('Error fetching rule category:', error);
+      res.status(error instanceof z.ZodError ? 400 : 500)
+        .json({ error: 'Error al obtener la categoría' });
+    }
+  });
+
+  // POST: Crear una nueva categoría - PROTEGIDO
+  app.post("/api/rule-categories", isAuthenticated, async (req, res) => {
+    try {
+      const newCategory = insertRuleCategorySchema.parse(req.body);
+      const createdCategory = await storage.createRuleCategory(newCategory);
+      res.status(201).json(createdCategory);
+    } catch (error) {
+      console.error('Error creating rule category:', error);
+      res.status(error instanceof z.ZodError ? 400 : 500)
+        .json({
+          error: 'Error al crear la categoría',
+          details: error instanceof z.ZodError ? error.errors : undefined
+        });
+    }
+  });
+
+  // PUT: Actualizar una categoría - PROTEGIDO
+  app.put("/api/rule-categories/:id", isAuthenticated, async (req, res) => {
+    try {
+      const { id } = idParamSchema.parse({ id: req.params.id });
+      const categoryUpdate = insertRuleCategorySchema.partial().parse(req.body);
+      
+      const updatedCategory = await storage.updateRuleCategory(id, categoryUpdate);
+      
+      if (!updatedCategory) {
+        return res.status(404).json({ error: 'Categoría no encontrada' });
+      }
+      
+      res.json(updatedCategory);
+    } catch (error) {
+      console.error('Error updating rule category:', error);
+      res.status(error instanceof z.ZodError ? 400 : 500)
+        .json({
+          error: 'Error al actualizar la categoría',
+          details: error instanceof z.ZodError ? error.errors : undefined
+        });
+    }
+  });
+
+  // DELETE: Eliminar una categoría - PROTEGIDO
+  app.delete("/api/rule-categories/:id", isAuthenticated, async (req, res) => {
+    try {
+      const { id } = idParamSchema.parse({ id: req.params.id });
+      const success = await storage.deleteRuleCategory(id);
+      
+      if (!success) {
+        return res.status(404).json({ error: 'Categoría no encontrada' });
+      }
+      
+      res.status(204).end();
+    } catch (error) {
+      console.error('Error deleting rule category:', error);
+      res.status(error instanceof z.ZodError ? 400 : 500)
+        .json({ error: 'Error al eliminar la categoría' });
+    }
+  });
+
+  
+  // GET: Obtener reglas por categoría
+  app.get("/api/rules/category/:categoryId", async (req, res) => {
+    try {
+      const { categoryId } = categoryIdParamSchema.parse({ categoryId: req.params.categoryId });
+      const rules = await storage.getRulesByCategoryId(categoryId);
+      res.json(rules);
+    } catch (error) {
+      console.error('Error fetching rules by category:', error);
+      res.status(error instanceof z.ZodError ? 400 : 500)
+        .json({ error: 'Error al obtener las reglas' });
+    }
+  });
+
+  // GET: Obtener una regla por ID
+  app.get("/api/rules/:id", async (req, res) => {
+    try {
+      const { id } = idParamSchema.parse({ id: req.params.id });
+      const rule = await storage.getRuleById(id);
+      
+      if (!rule) {
+        return res.status(404).json({ error: 'Regla no encontrada' });
+      }
+      
+      res.json(rule);
+    } catch (error) {
+      console.error('Error fetching rule:', error);
+      res.status(error instanceof z.ZodError ? 400 : 500)
+        .json({ error: 'Error al obtener la regla' });
+    }
+  });
+
+  // POST: Crear una nueva regla - PROTEGIDO
+  app.post("/api/rules", isAuthenticated, async (req, res) => {
+    try {
+      const newRule = insertRuleSchema.parse(req.body);
+      
+      // Verificar que la categoría existe
+      const category = await storage.getRuleCategoryById(newRule.categoryId);
+      if (!category) {
+        return res.status(400).json({ error: 'La categoría especificada no existe' });
+      }
+      
+      const createdRule = await storage.createRule(newRule);
+      res.status(201).json(createdRule);
+    } catch (error) {
+      console.error('Error creating rule:', error);
+      res.status(error instanceof z.ZodError ? 400 : 500)
+        .json({
+          error: 'Error al crear la regla',
+          details: error instanceof z.ZodError ? error.errors : undefined
+        });
+    }
+  });
+
+  // PUT: Actualizar una regla - PROTEGIDO
+  app.put("/api/rules/:id", isAuthenticated, async (req, res) => {
+    try {
+      const { id } = idParamSchema.parse({ id: req.params.id });
+      const ruleUpdate = insertRuleSchema.partial().parse(req.body);
+      
+      // Si se está actualizando la categoría, verificar que existe
+      if (ruleUpdate.categoryId) {
+        const category = await storage.getRuleCategoryById(ruleUpdate.categoryId);
+        if (!category) {
+          return res.status(400).json({ error: 'La categoría especificada no existe' });
+        }
+      }
+      
+      const updatedRule = await storage.updateRule(id, ruleUpdate);
+      
+      if (!updatedRule) {
+        return res.status(404).json({ error: 'Regla no encontrada' });
+      }
+      
+      res.json(updatedRule);
+    } catch (error) {
+      console.error('Error updating rule:', error);
+      res.status(error instanceof z.ZodError ? 400 : 500)
+        .json({
+          error: 'Error al actualizar la regla',
+          details: error instanceof z.ZodError ? error.errors : undefined
+        });
+    }
+  });
+
+  // DELETE: Eliminar una regla - PROTEGIDO
+  app.delete("/api/rules/:id", isAuthenticated, async (req, res) => {
+    try {
+      const { id } = idParamSchema.parse({ id: req.params.id });
+      const success = await storage.deleteRule(id);
+      
+      if (!success) {
+        return res.status(404).json({ error: 'Regla no encontrada' });
+      }
+      
+      res.status(204).end();
+    } catch (error) {
+      console.error('Error deleting rule:', error);
+      res.status(error instanceof z.ZodError ? 400 : 500)
+        .json({ error: 'Error al eliminar la regla' });
+    }
+  });
+
+  
+  // GET: Obtener todos los reportes de bugs
+  app.get("/api/bug-reports", async (_req, res) => {
+    try {
+      const bugReports = await storage.getAllBugReports();
+      res.json(bugReports);
+    } catch (error) {
+      console.error('Error fetching bug reports:', error);
+      res.status(500).json({ error: 'Error al obtener los reportes de bugs' });
+    }
+  });
+  
+  // GET: Obtener reportes de bugs pendientes
+  app.get("/api/bug-reports/pending", async (_req, res) => {
+    try {
+      const pendingBugs = await storage.getPendingBugReports();
+      res.json(pendingBugs);
+    } catch (error) {
+      console.error('Error fetching pending bug reports:', error);
+      res.status(500).json({ error: 'Error al obtener los reportes de bugs pendientes' });
+    }
+  });
+  
+  // GET: Obtener reportes de bugs validados
+  app.get("/api/bug-reports/validated", async (_req, res) => {
+    try {
+      const validatedBugs = await storage.getValidatedBugReports();
+      res.json(validatedBugs);
+    } catch (error) {
+      console.error('Error fetching validated bug reports:', error);
+      res.status(500).json({ error: 'Error al obtener los reportes de bugs validados' });
+    }
+  });
+  
+  // GET: Obtener un reporte de bug por ID
+  app.get("/api/bug-reports/:id", async (req, res) => {
+    try {
+      const { id } = idParamSchema.parse({ id: req.params.id });
+      const bugReport = await storage.getBugReportById(id);
+      
+      if (!bugReport) {
+        return res.status(404).json({ error: 'Reporte de bug no encontrado' });
+      }
+      
+      res.json(bugReport);
+    } catch (error) {
+      console.error('Error fetching bug report:', error);
+      res.status(error instanceof z.ZodError ? 400 : 500)
+        .json({ error: 'Error al obtener el reporte de bug' });
+    }
+  });
+  
+  // POST: Crear un nuevo reporte de bug (abierto a usuarios)
+  app.post("/api/bug-reports", async (req, res) => {
+    try {
+      const newBugReport = insertBugReportSchema.parse(req.body);
+      const createdBugReport = await storage.createBugReport(newBugReport);
+      res.status(201).json(createdBugReport);
+    } catch (error) {
+      console.error('Error creating bug report:', error);
+      res.status(error instanceof z.ZodError ? 400 : 500)
+        .json({
+          error: 'Error al crear el reporte de bug',
+          details: error instanceof z.ZodError ? error.errors : undefined
+        });
+    }
+  });
+  
+  // PUT: Validar un reporte de bug
+  app.put("/api/bug-reports/:id/validate", async (req, res) => {
+    try {
+      // Ya no requerimos verificación de adminId
+      
+      const { id } = idParamSchema.parse({ id: req.params.id });
+      const validatedBug = await storage.validateBugReport(id);
+      
+      if (!validatedBug) {
+        return res.status(404).json({ error: 'Reporte de bug no encontrado' });
+      }
+      
+      res.json(validatedBug);
+    } catch (error) {
+      console.error('Error validating bug report:', error);
+      res.status(error instanceof z.ZodError ? 400 : 500)
+        .json({ error: 'Error al validar el reporte de bug' });
+    }
+  });
+  
+  // PUT: Marcar un bug como resuelto
+  app.put("/api/bug-reports/:id/resolve", async (req, res) => {
+    try {
+      // Ya no requerimos verificación de adminId
+      
+      const { id } = idParamSchema.parse({ id: req.params.id });
+      const resolvedBug = await storage.resolveBugReport(id);
+      
+      if (!resolvedBug) {
+        return res.status(404).json({ error: 'Reporte de bug no encontrado' });
+      }
+      
+      res.json(resolvedBug);
+    } catch (error) {
+      console.error('Error resolving bug report:', error);
+      res.status(error instanceof z.ZodError ? 400 : 500)
+        .json({ error: 'Error al resolver el reporte de bug' });
+    }
+  });
+  
+  // PUT: Rechazar un reporte de bug
+  app.put("/api/bug-reports/:id/reject", async (req, res) => {
+    try {
+      const { id } = idParamSchema.parse({ id: req.params.id });
+      const success = await storage.rejectBugReport(id);
+      
+      if (!success) {
+        return res.status(404).json({ error: 'Reporte de bug no encontrado' });
+      }
+      
+      // Obtener el reporte actualizado para devolverlo en la respuesta
+      const updatedReport = await storage.getBugReportById(id);
+      
+      // Devolver 200 OK con el reporte actualizado
+      res.status(200).json(updatedReport);
+    } catch (error) {
+      console.error('Error rejecting bug report:', error);
+      res.status(error instanceof z.ZodError ? 400 : 500)
+        .json({ error: 'Error al rechazar el reporte de bug' });
+    }
+  });
+
+  const httpServer = createServer(app);
+  return httpServer;
+}

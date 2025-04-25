@@ -1,0 +1,196 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Minecraft';
+  src: url('https://cdn.jsdelivr.net/gh/South-Paw/typeface-minecraft@master/web-font/minecraft.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --background: 222 47.4% 11.2%;
+  --foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --primary: 195 80% 15%;
+  --primary: 190 100% 50%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --accent: 39 100% 50%;
+  --accent-foreground: 20 14.3% 4.1%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --ring: 0 0% 80%;
+  --radius: 0.5rem;
+
+  --chart-1: 195 80% 15%;
+  --chart-1: 190 100% 50%;
+  --chart-2: 39 100% 50%; 
+  --chart-3: 261 100% 50%;
+  --chart-4: 143 70% 50%;
+  --chart-5: 0 70% 50%;
+
+  --sidebar-background: 222 47.4% 11.2%;
+  --sidebar-foreground: 210 40% 98%;
+  --sidebar-primary: 195 80% 15%;
+  --sidebar-primary: 190 100% 50%;
+  --sidebar-primary-foreground: 210 40% 98%;
+  --sidebar-accent: 39 100% 50%;
+  --sidebar-accent-foreground: 20 14.3% 4.1%;
+  --sidebar-border: 217.2 32.6% 17.5%;
+  --sidebar-ring: 0 0% 80%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .minecraft-btn {
+    @apply relative inline-block border-2 border-black bg-[#8c8c8c] shadow-[inset_-2px_-4px_0_0_rgba(0,0,0,0.2),_inset_2px_2px_0_0_rgba(255,255,255,0.5)] transition-all duration-100;
+  }
+  
+  .minecraft-btn:hover {
+    @apply bg-[#9c9c9c];
+  }
+  
+  .minecraft-btn:active {
+    @apply shadow-[inset_2px_4px_0_0_rgba(0,0,0,0.2),_inset_-2px_-2px_0_0_rgba(255,255,255,0.5)];
+  }
+
+  .pixel-border {
+    @apply relative border-2 border-gray-800 shadow-[inset_0_0_0_2px_rgba(255,255,255,0.2)] transition-all duration-200;
+  }
+  
+  .pixel-border:hover {
+    @apply transform -translate-y-1 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),_inset_0_0_0_2px_rgba(255,255,255,0.3)];
+  }
+
+  .font-minecraft {
+    font-family: 'Minecraft', sans-serif;
+  }
+}
+
+@layer utilities {
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .floating {
+    animation: floating 3s ease-in-out infinite;
+  }
+
+  @keyframes floating {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+  
+  /* Estilos para AnimatedStoreButton */
+  .minecraft-block {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  
+  .minecraft-block::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 0.1s;
+    pointer-events: none;
+  }
+  
+  /* Clases para los diferentes niveles de grietas */
+  .crack-1::before {
+    opacity: 0.1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M50,40 L55,50 L45,55' stroke='%23ffffff' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+  }
+  
+  .crack-2::before {
+    opacity: 0.2;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M45,40 L55,50 L40,60' stroke='%23ffffff' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+  }
+  
+  .crack-3::before {
+    opacity: 0.3;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M40,35 L60,50 L35,65' stroke='%23ffffff' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+  }
+  
+  .crack-4::before {
+    opacity: 0.4;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M35,30 L65,50 L30,70' stroke='%23ffffff' stroke-width='3' fill='none'/%3E%3C/svg%3E");
+  }
+  
+  .crack-5::before {
+    opacity: 0.5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M30,25 L70,50 L25,75 M40,30 L60,60' stroke='%23ffffff' stroke-width='3' fill='none'/%3E%3C/svg%3E");
+  }
+  
+  .crack-6::before {
+    opacity: 0.6;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M25,20 L75,50 L20,80 M35,30 L65,70 M45,25 L55,75' stroke='%23ffffff' stroke-width='3' fill='none'/%3E%3C/svg%3E");
+  }
+  
+  .crack-7::before {
+    opacity: 0.7;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M20,15 L80,50 L15,85 M30,25 L70,75 M40,20 L60,80 M25,50 L75,50' stroke='%23ffffff' stroke-width='3' fill='none'/%3E%3C/svg%3E");
+  }
+  
+  .crack-8::before {
+    opacity: 0.8;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M15,10 L85,50 L10,90 M25,20 L75,80 M35,15 L65,85 M20,50 L80,50 M50,15 L50,85' stroke='%23ffffff' stroke-width='3' fill='none'/%3E%3C/svg%3E");
+  }
+  
+  .crack-9::before, .crack-10::before {
+    opacity: 0.9;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M10,5 L90,50 L5,95 M20,15 L80,85 M30,10 L70,90 M15,50 L85,50 M50,10 L50,90 M10,30 L90,70 M10,70 L90,30' stroke='%23ffffff' stroke-width='3' fill='none'/%3E%3C/svg%3E");
+  }
+  
+  .breaking::before {
+    opacity: 1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg%3E%3Crect x='10' y='10' width='20' height='20' fill='%23ff9c00' transform='rotate(15, 20, 20)'/%3E%3Crect x='70' y='10' width='20' height='20' fill='%23ff9c00' transform='rotate(-15, 80, 20)'/%3E%3Crect x='40' y='40' width='20' height='20' fill='%23ff9c00' transform='rotate(45, 50, 50)'/%3E%3Crect x='10' y='70' width='20' height='20' fill='%23ff9c00' transform='rotate(-25, 20, 80)'/%3E%3Crect x='70' y='70' width='20' height='20' fill='%23ff9c00' transform='rotate(25, 80, 80)'/%3E%3C/g%3E%3C/svg%3E");
+    animation: break-animation 0.5s forwards;
+  }
+  
+  @keyframes break-animation {
+    0% {
+      transform: scale(1);
+      opacity: 0.9;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1.5);
+      opacity: 0;
+    }
+  }
+  
+  .minecraft-text {
+    font-family: 'Minecraft', sans-serif;
+    letter-spacing: 1px;
+  }
+}

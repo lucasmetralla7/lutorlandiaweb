@@ -1,0 +1,8 @@
+import React from "react";
+import { renderToString } from "react-dom/server";
+import App from "../client/src/App";
+
+export function render() {
+  return renderToString(<App />);
+}
+
