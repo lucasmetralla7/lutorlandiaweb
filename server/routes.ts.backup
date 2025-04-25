@@ -595,4 +595,129 @@ export async function registerRoutes(app: express.Express): Promise<void> {
       });
     }
   });
+<<<<<<< HEAD
+=======
+import type { Express } from "express";
+import { createServer, type Server } from "http";
+import { storage } from "./storage";
+
+export async function registerRoutes(app: Express): Promise<Server> {
+  // Endpoint to get server status
+  app.get("/api/server-status", (_req, res) => {
+    // In a production environment, you would fetch the actual status from 
+    // a Minecraft server status API (using libraries like minecraft-server-util)
+    // Here we're using static data for demonstration
+    res.json({
+      online: true,
+      players: { online: 127, max: 500 },
+      version: "1.19.2"
+    });
+  });
+
+  // Endpoint to get announcements
+  app.get("/api/announcements", (_req, res) => {
+    res.json([
+      {
+        id: 1,
+        title: "Gran Torneo de PvP",
+        content: "¡Prepárate para demostrar tus habilidades en el combate! Grandes premios para los ganadores.",
+        date: "23 de Julio, 2023",
+        type: "EVENTO",
+        image: "https://images.unsplash.com/photo-1627856013091-fed6e4e30025?w=800",
+        time: "5PM EST"
+      },
+      {
+        id: 2,
+        title: "Nuevo Mundo Survival",
+        content: "Hemos habilitado un nuevo mundo survival con biomas exclusivos y estructuras especiales.",
+        date: "15 de Julio, 2023",
+        type: "ACTUALIZACIÓN",
+        image: "https://images.unsplash.com/photo-1563207153-f403bf289096?w=800",
+        time: "¡Ya disponible!"
+      },
+      {
+        id: 3,
+        title: "Nuevos Artículos en la Tienda",
+        content: "Hemos actualizado nuestra tienda con nuevos paquetes y beneficios exclusivos para nuestros jugadores.",
+        date: "10 de Julio, 2023",
+        type: "TIENDA",
+        image: "https://images.unsplash.com/photo-1633419798000-df40eb6474ed?w=800",
+        link: "https://tienda.lutorlandia.net"
+      }
+    ]);
+  });
+
+  // Endpoint to get staff members
+  app.get("/api/staff", (_req, res) => {
+    res.json([
+      {
+        id: 1,
+        name: "LutorKing",
+        role: "Fundador",
+        roleLabel: "ADMIN",
+        description: "Administrador principal y creador del servidor.",
+        avatar: "https://mc-heads.net/avatar/MHF_Steve/100.png"
+      },
+      {
+        id: 2,
+        name: "MinecraftPro",
+        role: "Moderador",
+        roleLabel: "MOD",
+        description: "Encargado de mantener el orden y ayudar a los jugadores.",
+        avatar: "https://mc-heads.net/avatar/MHF_Alex/100.png"
+      },
+      {
+        id: 3,
+        name: "Crafteo",
+        role: "Ayudante",
+        roleLabel: "HELPER",
+        description: "Asistente para nuevos jugadores y soporte general.",
+        avatar: "https://mc-heads.net/avatar/DigMinecraft/100.png"
+      },
+      {
+        id: 4,
+        name: "PixelMaster",
+        role: "Desarrollador",
+        roleLabel: "DEV",
+        description: "Creador de plugins y funcionalidades exclusivas.",
+        avatar: "https://mc-heads.net/avatar/Notch/100.png"
+      },
+      {
+        id: 5,
+        name: "BuilderKing",
+        role: "Constructor",
+        roleLabel: "DEV",
+        description: "Especialista en construcciones y diseño de mapas.",
+        avatar: "https://mc-heads.net/avatar/Jeb_/100.png"
+      },
+      {
+        id: 6,
+        name: "EventManager",
+        role: "Organizador",
+        roleLabel: "MOD",
+        description: "Encargado de planificar y ejecutar eventos especiales.",
+        avatar: "https://mc-heads.net/avatar/Dinnerbone/100.png"
+      },
+      {
+        id: 7,
+        name: "SupportMaster",
+        role: "Soporte",
+        roleLabel: "HELPER",
+        description: "Especialista en atención al jugador y resolución de problemas.",
+        avatar: "https://mc-heads.net/avatar/Herobrine/100.png"
+      },
+      {
+        id: 8,
+        name: "ContentCreator",
+        role: "Creador de Contenido",
+        roleLabel: "MOD",
+        description: "Responsable de crear y compartir contenido del servidor.",
+        avatar: "https://mc-heads.net/avatar/Grumm/100.png"
+      }
+    ]);
+  });
+
+  const httpServer = createServer(app);
+  return httpServer;
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
 }

@@ -15,7 +15,14 @@ import {
   bugReports,
   type BugReport,
   type InsertBugReport,
+<<<<<<< HEAD
   BugStatus
+=======
+  BugStatus,
+  users,
+  type User,
+  type InsertUser
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, asc, sql } from "drizzle-orm";
@@ -29,6 +36,25 @@ let storageInstance: IStorage;
  * Clase para almacenamiento en base de datos MySQL
  */
 class DatabaseStorage implements IStorage {
+<<<<<<< HEAD
+=======
+  // Métodos de usuarios
+  async getUser(id: number): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user;
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const [user] = await db.insert(users).values(insertUser).returning();
+    return user;
+  }
+
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
   // Staff members
   async getAllStaffMembers(): Promise<StaffMember[]> {
     return await db.select().from(staffMembers);
@@ -394,4 +420,8 @@ function createStorage(): IStorage {
 }
 
 // Inicializar el almacenamiento
+<<<<<<< HEAD
 export const storage = createStorage();
+=======
+export const storage = createStorage();
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)

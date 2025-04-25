@@ -9,10 +9,18 @@ export function log(message: string, source = "express") {
   console.log(`${time} [${source}] ${message}`);
 }
 
+<<<<<<< HEAD
 export async function setupVite(app: Express, server: Server | null) {
   const vite = await createViteServer({
     server: {
       middlewareMode: true,
+=======
+export async function setupVite(app: Express, server: Server) {
+  const vite = await createViteServer({
+    server: {
+      middlewareMode: true,
+      hmr: { server }
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
     },
     appType: "custom",
     optimizeDeps: {
@@ -88,4 +96,8 @@ export function serveStatic(app: Express) {
       res.sendFile(indexPath);
     }
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)

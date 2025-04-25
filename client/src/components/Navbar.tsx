@@ -30,6 +30,12 @@ export default function Navbar() {
               <div className="flex-shrink-0 cursor-pointer">
                 <img className="h-10" src="https://i.imgur.com/uXFUkqf.png" alt="Lutorlandia Logo" />
               </div>
+<<<<<<< HEAD
+=======
+              <a className="flex-shrink-0">
+                <img className="h-10" src="https://i.imgur.com/uXFUkqf.png" alt="Lutorlandia Logo" />
+              </a>
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
             </Link>
             <div className="hidden md:block ml-10">
               <div className="flex items-center space-x-4">
@@ -57,6 +63,17 @@ export default function Navbar() {
                   <div className={`px-3 py-2 rounded-md text-sm font-medium cursor-pointer ${location === '/admin' ? 'text-white bg-gray-800' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}>
                     PANEL
                   </div>
+<<<<<<< HEAD
+=======
+                  <a className={`px-3 py-2 rounded-md text-sm font-medium ${location === '/' ? 'text-white bg-gray-800' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}>
+                    INICIO
+                  </a>
+                </Link>
+                <Link href="/staff">
+                  <a className={`px-3 py-2 rounded-md text-sm font-medium ${location === '/staff' ? 'text-white bg-gray-800' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}>
+                    STAFF
+                  </a>
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
                 </Link>
               </div>
             </div>
@@ -81,6 +98,17 @@ export default function Navbar() {
               url="https://tienda.lutorlandia.net" 
               text="TIENDA" 
             />
+<<<<<<< HEAD
+=======
+            <a href="https://discord.gg/ZAQ3bGmqg6" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+              <i className="fab fa-discord mr-1"></i> DISCORD
+            </a>
+            <a href="https://tienda.lutorlandia.net" target="_blank" rel="noopener noreferrer">
+              <Button variant="store" size="default">
+                TIENDA
+              </Button>
+            </a>
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
           </div>
           
           <div className="md:hidden flex items-center">
@@ -139,6 +167,28 @@ export default function Navbar() {
             <div className="flex items-center justify-between">
               <span className="font-mono text-sm font-bold text-accent">mc.lutorlandia.net</span>
               <button className="text-accent hover:text-white" onClick={() => copyToClipboard('mc.lutorlandia.net')}>
+<<<<<<< HEAD
+=======
+            <a className={`block px-3 py-2 rounded-md text-base font-medium ${location === '/' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}>
+              INICIO
+            </a>
+          </Link>
+          <Link href="/staff">
+            <a className={`block px-3 py-2 rounded-md text-base font-medium ${location === '/staff' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}>
+              STAFF
+            </a>
+          </Link>
+          <a href="https://discord.gg/ZAQ3bGmqg6" target="_blank" rel="noopener noreferrer" className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+            DISCORD
+          </a>
+          <a href="https://tienda.lutorlandia.net" target="_blank" rel="noopener noreferrer" className="block px-3 py-2 rounded-md text-base font-medium text-accent font-bold hover:bg-gray-700">
+            TIENDA
+          </a>
+          <div className="mt-3 px-3 py-2 border border-gray-700 rounded-md">
+            <div className="flex items-center justify-between">
+              <span className="font-mono text-sm text-gray-300">mc.lutorlandia.net</span>
+              <button className="text-gray-400 hover:text-white" onClick={() => copyToClipboard('mc.lutorlandia.net')}>
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                 </svg>

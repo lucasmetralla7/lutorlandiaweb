@@ -31,6 +31,16 @@ export default function Hero() {
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
               </svg>
+<<<<<<< HEAD
+=======
+            <span className="font-mono font-bold text-xl text-primary mr-2">mc.lutorlandia.net</span>
+            <button 
+              className="text-gray-400 hover:text-white text-lg" 
+              title="Copiar IP" 
+              onClick={() => copyToClipboard('mc.lutorlandia.net')}
+            >
+              <i className="fas fa-copy"></i>
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
             </button>
           </div>
           

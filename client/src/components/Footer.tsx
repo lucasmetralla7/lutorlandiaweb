@@ -33,11 +33,19 @@ export default function Footer() {
               <li>
                 <Link href="/">
                   <div className="text-gray-400 hover:text-white cursor-pointer">Inicio</div>
+<<<<<<< HEAD
+=======
+                  <a className="text-gray-400 hover:text-white">Inicio</a>
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
                 </Link>
               </li>
               <li>
                 <Link href="/staff">
                   <div className="text-gray-400 hover:text-white cursor-pointer">Staff</div>
+<<<<<<< HEAD
+=======
+                  <a className="text-gray-400 hover:text-white">Staff</a>
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
                 </Link>
               </li>
               <li>
@@ -54,6 +62,12 @@ export default function Footer() {
                 <Link href="/reglas">
                   <div className="text-gray-400 hover:text-white cursor-pointer">Reglas</div>
                 </Link>
+<<<<<<< HEAD
+=======
+                <a href="#" className="text-gray-400 hover:text-white">
+                  Reglas
+                </a>
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
               </li>
             </ul>
           </div>
@@ -86,6 +100,25 @@ export default function Footer() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 <span className="text-gray-300">Contacto: <span className="text-white font-semibold">contacto@lutorlandia.net</span></span>
+<<<<<<< HEAD
+=======
+                <i className="fas fa-server text-primary mr-2"></i>
+                <span className="text-gray-400">
+                  IP: <span className="text-white cursor-pointer hover:text-primary" onClick={() => copyToClipboard('mc.lutorlandia.net')}>mc.lutorlandia.net</span>
+                </span>
+              </li>
+              <li className="flex items-center">
+                <i className="fas fa-gamepad text-primary mr-2"></i>
+                <span className="text-gray-400">Versión: <span className="text-white">1.19.2</span></span>
+              </li>
+              <li className="flex items-center">
+                <i className="fas fa-globe text-primary mr-2"></i>
+                <span className="text-gray-400">Web: <span className="text-white">lutorlandia.net</span></span>
+              </li>
+              <li className="flex items-center">
+                <i className="fas fa-envelope text-primary mr-2"></i>
+                <span className="text-gray-400">Contacto: <span className="text-white">contacto@lutorlandia.net</span></span>
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
               </li>
             </ul>
           </div>
@@ -95,6 +128,12 @@ export default function Footer() {
           <p className="text-gray-500">&copy; 2025 Lutorlandia. Todos los derechos reservados.</p>
           <p className="text-gray-600 text-sm mt-2">
             Minecraft es una marca registrada de Mojang AB / Microsoft. Este sitio no está afiliado con Mojang AB / Microsoft.
+<<<<<<< HEAD
+=======
+          <p className="text-gray-500">&copy; {new Date().getFullYear()} Lutorlandia. Todos los derechos reservados.</p>
+          <p className="text-gray-600 text-sm mt-2">
+            Minecraft es una marca registrada de Mojang AB. Este sitio no está afiliado con Mojang.
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
           </p>
         </div>
       </div>

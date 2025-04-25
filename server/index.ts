@@ -36,8 +36,13 @@ async function bootstrap() {
   log("Configurando conexión a la base de datos...");
 
   try {
+<<<<<<< HEAD
     // Registrar todas las rutas (ya no esperamos un servidor de retorno)
     await registerRoutes(app);
+=======
+    // Registrar todas las rutas
+    const server = await registerRoutes(app);
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
 
     app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
       const status = err.status || err.statusCode || 500;
@@ -47,9 +52,12 @@ async function bootstrap() {
       throw err;
     });
 
+<<<<<<< HEAD
     // Crear el servidor HTTP directamente aquí
     const server = createServer(app);
 
+=======
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
     // Configurar Vite o servir estáticos
     if (process.env.NODE_ENV === "production") {
       serveStatic(app);
@@ -57,7 +65,11 @@ async function bootstrap() {
       await setupVite(app, server);
     }
 
+<<<<<<< HEAD
     const port = process.env.PORT || "3000";
+=======
+    const port = process.env.PORT || "5000";
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
     server.listen({
       port: parseInt(port, 10),
       host: "0.0.0.0",
@@ -72,4 +84,8 @@ async function bootstrap() {
 bootstrap().catch((e) => {
   console.error("Unhandled error during bootstrap", e);
   process.exit(1);
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)

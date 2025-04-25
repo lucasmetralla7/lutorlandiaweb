@@ -21,6 +21,10 @@
   --border: 217.2 32.6% 17.5%;
   --input: 217.2 32.6% 17.5%;
   --primary: 195 80% 15%;
+<<<<<<< HEAD
+=======
+  --primary: 190 100% 50%;
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
   --primary-foreground: 210 40% 98%;
   --secondary: 217.2 32.6% 17.5%;
   --secondary-foreground: 210 40% 98%;
@@ -32,6 +36,10 @@
   --radius: 0.5rem;
 
   --chart-1: 195 80% 15%;
+<<<<<<< HEAD
+=======
+  --chart-1: 190 100% 50%;
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
   --chart-2: 39 100% 50%; 
   --chart-3: 261 100% 50%;
   --chart-4: 143 70% 50%;
@@ -40,6 +48,10 @@
   --sidebar-background: 222 47.4% 11.2%;
   --sidebar-foreground: 210 40% 98%;
   --sidebar-primary: 195 80% 15%;
+<<<<<<< HEAD
+=======
+  --sidebar-primary: 190 100% 50%;
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
   --sidebar-primary-foreground: 210 40% 98%;
   --sidebar-accent: 39 100% 50%;
   --sidebar-accent-foreground: 20 14.3% 4.1%;

@@ -17,6 +17,13 @@ export async function apiRequest(
   const method = options?.method || 'GET';
   const data = options?.data;
 
+<<<<<<< HEAD
+=======
+  method: string,
+  url: string,
+  data?: unknown | undefined,
+): Promise<Response> {
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
   const res = await fetch(url, {
     method,
     headers: data ? { "Content-Type": "application/json" } : {},

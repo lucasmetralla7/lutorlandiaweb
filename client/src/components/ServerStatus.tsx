@@ -55,6 +55,12 @@ export default function ServerStatus() {
               <i className="fas fa-gamepad text-primary mr-2"></i>
               <span className="text-gray-300">
                 Versiones compatibles: <span className="text-white font-semibold">1.20.4-1.21.4</span>
+<<<<<<< HEAD
+=======
+              <i className="fas fa-clock text-primary mr-2"></i>
+              <span className="text-gray-300">
+                Última actualización: <span className="text-white font-semibold">v{serverStatus.version}</span>
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
               </span>
             </div>
           </div>

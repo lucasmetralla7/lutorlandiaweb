@@ -203,6 +203,20 @@ export const insertBugReportSchema = createInsertSchema(bugReports)
     priority: bugPrioritySchema,
   });
 
+<<<<<<< HEAD
+=======
+// Users table for authentication
+export const users = mysqlTable("users", {
+  id: int("id").primaryKey().autoincrement(),
+  username: varchar("username", { length: 255 }).notNull().unique(),
+  password: varchar("password", { length: 255 }).notNull(),
+});
+
+export const insertUserSchema = createInsertSchema(users).omit({
+  id: true,
+});
+
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
 // Type definitions
 export type InsertStaffMember = z.infer<typeof insertStaffMemberSchema>;
 export type StaffMember = typeof staffMembers.$inferSelect;
@@ -221,3 +235,9 @@ export type ServerStatus = typeof serverStatus.$inferSelect;
 
 export type InsertBugReport = z.infer<typeof insertBugReportSchema>;
 export type BugReport = typeof bugReports.$inferSelect;
+<<<<<<< HEAD
+=======
+
+export type InsertUser = z.infer<typeof insertUserSchema>;
+export type User = typeof users.$inferSelect;
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)

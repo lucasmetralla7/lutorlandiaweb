@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import { createServer, type Server } from "http";
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
 import express, { Request, Response, NextFunction } from "express";
 import { storage } from "./storage";
 import { scrypt, randomBytes, timingSafeEqual } from "crypto";
@@ -40,7 +44,11 @@ export const isAuthenticated = (req: Request, res: Response, next: NextFunction)
   res.status(401).json({ error: "No autorizado" });
 };
 
+<<<<<<< HEAD
 export async function registerRoutes(app: express.Express): Promise<void> {
+=======
+export async function registerRoutes(app: express.Express): Promise<Server> {
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
   // Configuración de sesiones
   app.use(
     session({
@@ -133,6 +141,7 @@ export async function registerRoutes(app: express.Express): Promise<void> {
     }
   });
 
+<<<<<<< HEAD
   app.post("/api/staff", async (req, res) => {
     try {
       console.log('Body recibido en POST /api/staff:', req.body);
@@ -165,11 +174,38 @@ export async function registerRoutes(app: express.Express): Promise<void> {
         .json({
           error: 'Error al crear el miembro del staff',
           details: error instanceof z.ZodError ? error.errors : (error instanceof Error ? error.message : 'Unknown error')
+=======
+  app.post("/api/staff", isAuthenticated, async (req, res) => {
+    try {
+      console.log("POST /api/staff - Body recibido:", JSON.stringify(req.body));
+      // Verificar si el campo roleLabel está presente
+      if (!req.body.roleLabel && req.body.role_label) {
+        console.log("Convirtiendo role_label a roleLabel...");
+        req.body.roleLabel = req.body.role_label;
+      }
+      
+      // Intentar hacer el parsing después de asegurar que roleLabel existe
+      const newStaffMember = insertStaffMemberSchema.parse(req.body);
+      console.log("Datos validados correctamente:", JSON.stringify(newStaffMember));
+      
+      const createdStaffMember = await storage.createStaffMember(newStaffMember);
+      res.status(201).json(createdStaffMember);
+    } catch (error) {
+      console.error("Error creating staff member:", error);
+      res.status(error instanceof z.ZodError ? 400 : 500)
+        .json({ 
+          error: "Error al crear el miembro del staff",
+          details: error instanceof z.ZodError ? error.errors : undefined
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
         });
     }
   });
 
+<<<<<<< HEAD
   app.put("/api/staff/:id", async (req, res) => {
+=======
+  app.put("/api/staff/:id", isAuthenticated, async (req, res) => {
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
     try {
       const id = parseInt(req.params.id);
       
@@ -202,7 +238,11 @@ export async function registerRoutes(app: express.Express): Promise<void> {
     }
   });
 
+<<<<<<< HEAD
   app.delete("/api/staff/:id", async (req, res) => {
+=======
+  app.delete("/api/staff/:id", isAuthenticated, async (req, res) => {
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
     try {
       const id = parseInt(req.params.id);
       const success = await storage.deleteStaffMember(id);
@@ -542,7 +582,11 @@ export async function registerRoutes(app: express.Express): Promise<void> {
     }
   });
 
+<<<<<<< HEAD
   app.put("/api/bugs/:id/validate", isAuthenticated, async (req, res) => {
+=======
+  app.post("/api/bugs/:id/validate", isAuthenticated, async (req, res) => {
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
     try {
       const id = parseInt(req.params.id);
       const validatedBug = await storage.validateBugReport(id);
@@ -560,7 +604,11 @@ export async function registerRoutes(app: express.Express): Promise<void> {
     }
   });
 
+<<<<<<< HEAD
   app.put("/api/bugs/:id/reject", isAuthenticated, async (req, res) => {
+=======
+  app.post("/api/bugs/:id/reject", isAuthenticated, async (req, res) => {
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
     try {
       const id = parseInt(req.params.id);
       const success = await storage.rejectBugReport(id);
@@ -578,7 +626,11 @@ export async function registerRoutes(app: express.Express): Promise<void> {
     }
   });
 
+<<<<<<< HEAD
   app.put("/api/bugs/:id/resolve", isAuthenticated, async (req, res) => {
+=======
+  app.post("/api/bugs/:id/resolve", isAuthenticated, async (req, res) => {
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
     try {
       const id = parseInt(req.params.id);
       const resolvedBug = await storage.resolveBugReport(id);
@@ -595,4 +647,12 @@ export async function registerRoutes(app: express.Express): Promise<void> {
       });
     }
   });
+<<<<<<< HEAD
 }
+=======
+
+  // Crear y devolver el servidor HTTP
+  const httpServer = createServer(app);
+  return httpServer;
+}
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)

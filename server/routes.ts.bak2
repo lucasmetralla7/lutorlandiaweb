@@ -37,7 +37,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
 
+<<<<<<< HEAD
   // ========== ANNOUNCEMENTS API ENDPOINTS ==========
+=======
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
   
   // GET: Obtener todos los anuncios
   app.get("/api/announcements", async (_req, res) => {
@@ -125,7 +128,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+<<<<<<< HEAD
   // ========== STAFF MANAGEMENT API ENDPOINTS ==========
+=======
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
 
   // GET: Obtener todos los miembros del staff
   app.get("/api/staff", async (_req, res) => {
@@ -211,7 +217,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+<<<<<<< HEAD
   // ========== RULE CATEGORIES API ENDPOINTS ==========
+=======
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
   
   // GET: Obtener todas las categorías de reglas
   app.get("/api/rule-categories", async (_req, res) => {
@@ -299,7 +308,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+<<<<<<< HEAD
   // ========== RULES API ENDPOINTS ==========
+=======
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
   
   // GET: Obtener reglas por categoría
   app.get("/api/rules/category/:categoryId", async (req, res) => {
@@ -404,7 +416,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+<<<<<<< HEAD
   // ========== BUG REPORTS API ENDPOINTS ==========
+=======
+>>>>>>> 197055a3 (Solucionando conflictos y actualizando)
   
   // GET: Obtener todos los reportes de bugs
   app.get("/api/bug-reports", async (_req, res) => {
